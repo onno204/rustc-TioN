@@ -1,5 +1,12 @@
-fn main() {
-    let system = actix::System::new("test");
+#![feature(proc_macro_hygiene, decl_macro)]
 
-    system.run();
+#[macro_use] extern crate rocket;
+
+#[get("/hello")]
+fn hello() -> String {
+    format!("Hello")
+}
+
+fn main() {
+    rocket::ignite().mount("/", routes![hello]).launch();
 }
