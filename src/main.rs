@@ -2,9 +2,9 @@
 
 #[macro_use] extern crate rocket;
 
-#[get("/")]
-fn hello() -> &'static str {
-    "Hello, world!"
+#[get("/hello")]
+fn hello() -> String {
+    format!("Hello")
 }
 
 fn main() {
