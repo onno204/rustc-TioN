@@ -2,7 +2,6 @@
 #[macro_use] extern crate rocket;
 mod public;
 
-
 fn main() {
     rocket::ignite()
         .mount("/", routes![public::index::get, public::login::get])
