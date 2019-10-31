@@ -1,12 +1,10 @@
 #![feature(proc_macro_hygiene, decl_macro)]
-
 #[macro_use] extern crate rocket;
+mod public;
 
-#[get("/")]
-fn hello() -> &'static str {
-    "Hello, world!"
-}
 
 fn main() {
-    rocket::ignite().mount("/", routes![hello]).launch();
+    rocket::ignite()
+        .mount("/", routes![public::index::get, public::login::get])
+    .launch();
 }
