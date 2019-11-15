@@ -13,3 +13,8 @@ serde = "1.0.102"
 serde_derive = "1.0.102"
 serde_json = "1.0.41"
 mysql = "*"
+
+[dependencies.rocket_contrib]
+version = "0.4.2"
+default-features = false
+features = ["json"]

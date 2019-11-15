@@ -1,10 +1,17 @@
 extern crate serde_json;
-use crate::server::notifications::send_test_message;
+extern crate serde_derive;
+use crate::server::notifications;
 use rocket::response::content;
 
-#[post("/login")]
-pub fn post() -> content::Json<String> {
-    send_test_message();
+#[derive(Serialize, Deserialize)]
+pub struct Message {
+    id: i32,
+    message: String
+}
+
+#[post("/login", format = "application/json", data="<message>")]
+pub fn post(message: rocket_contrib::json::Json<Message>) -> content::Json<String> {
+    notifications::send_test_message(&message.message).expect("Wow");
     let john = json!({
         "name": "John Doe",
         "age": 43,
