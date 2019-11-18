@@ -1,3 +1,4 @@
 */target
 **/*.rs.bk
 /.vs
+/main server/src/server/settings_private.rs
