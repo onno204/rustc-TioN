@@ -1,0 +1,52 @@
+nav{
+  background-color: var(--nav-background-color, white);
+  color: var(--nav-color, black);
+  height: calc(100%);
+  top: 0px;
+  width: 12rem;
+  position: fixed;
+  transition-duration: .5s;
+  overflow: hidden;
+  z-index: 1000;
+}
+nav a{
+  text-decoration: none;
+  color: var(--nav-color, black);
+  font-size: 115%;
+  min-width: 10rem;
+  padding: 1rem;
+  padding-top: 1.8rem;
+  padding-left: 1rem;
+  display: block;
+  transition-duration: .2s;
+}
+nav a:hover label{
+  animation-name: frame-fullspin;
+  animation-duration: .4s;
+}
+nav a:hover{ color: var(--nav-hover-color, grey); }
+nav a:first-of-type { margin-top: 80px; }
+nav a span{ padding-left: 6px; }
+nav a label{ cursor: pointer; }
+nav .back{
+  position: absolute;
+  top: 1rem;
+  right: 0;
+  padding: .6rem;
+  cursor: pointer;
+  min-width: unset;
+}
+nav .back label{
+  font-size: 175%;
+  cursor: pointer;
+  animation-name: frame-rotate-reverse !important;
+  animation-duration: .4s;
+}
+.nav-collaps{ width: 2.8rem; }
+.nav-collaps a { padding-left: .7rem; }
+.nav-collaps .back label{
+  transform: rotate(-180deg);
+  animation-name: frame-rotate !important;
+  animation-duration: .4s;
+}
+.nav-collaps a span{ display: none; }

@@ -1,0 +1,21 @@
+.misc{
+  display: none;
+}
+.misc .notifications{
+  position: fixed;
+  right: 0px;
+  top: 0px;
+}
+.mis .notifications div{
+  width: 12rem;
+  height: 4rem;
+  display: block;
+  background-color: var(--pallet-main-color, white);
+  color: var(--pallet-text-color, black);
+}
+.mis .notifications label{
+
+}
+.mis .notifications span{
+
+}

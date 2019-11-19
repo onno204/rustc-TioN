@@ -1,0 +1,42 @@
+:root{
+  /* https://flatuicolors.com/palette/gb */
+  /* https://flatuicolors.com/palette/nl */
+  --pallet-main-color: #0652DD; /* Merchant Marine Blue */
+  --pallet-text-color: #f5f6fa; /* lynx white */
+  --pallet-accent-color: #12CBC4; /* Blue Martina */
+  --pallet-red-color: #EA2027; /* Red pigment */
+  --pallet-yellow-color: #F79F1F; /* Radiant Yellow */
+  --pallet-green-color: #4cd137; /* Download Progress */
+  --pallet-orange-color: #e84118; /* Nasturcian Flower */
+  --pallet-dark-color: #2f3640; /* Electromagnetic */
+  --pallet-no-color: rgba(0,0,0,0); /* - */
+  --pallet-alternative-blue-color: #00a8ff; /* Protoss Pylon */
+  --pallet-alternative-dark-color: #57606f; /* grisaille */
+  --pallet-alternative-dark-color-2: #2f3542; /* Prestige Blue */
+
+
+
+
+
+
+  --main-background-color: var(--pallet-dark-color, black);
+  --main-color: var(--pallet-text-color, black);
+
+  --footer-background-color: var(--pallet-main-color, white);
+  --footer-color: var(--pallet-text-color, black);
+
+  --table-background-color: var(--pallet-main-color, white);
+  --table-background-color-2: var(--pallet-alternative-blue-color, white);
+  --table-top-color: var(--pallet-alternative-dark-color, white);
+  --table-color: var(--pallet-text-color, black);
+
+  --nav-background-color: var(--pallet-main-color, white);
+  --nav-color: var(--pallet-text-color, black);
+  --nav-hover-color: var(--pallet-accent-color, black);
+
+  --form-background-color: var(--pallet-main-color, white);
+  --form-color: var(--pallet-text-color, white);
+
+  --button-background-color: var(--pallet-green-color, white);
+  --button-color: var(--pallet-text-color, black);
+}

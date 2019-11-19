@@ -1,0 +1,59 @@
+
+/* Self created */
+@keyframes frame-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-180deg);  }
+}
+@keyframes frame-rotate-reverse {
+  0% { transform: rotate(-180deg); }
+  100% { transform: rotate(0deg);  }
+}
+
+@keyframes frame-fullspin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg);  }
+}
+
+
+
+/* Loading button: https://loading.io/css/ */
+.animations-loading-button-input-active{ filter: blur(3px); }
+.animations-loading-button-active { position: relative; color: grey !important; }
+.animations-loading-button-active * { display: inline-block; }
+.animations-loading-button {
+  filter: none;
+  position: absolute;
+  width: 2.1rem;;
+  height: 2.1rem;
+  right: 2.1rem;
+  z-index: 1;
+}
+.animations-loading-button div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  margin: 0;
+  border: 0.3rem solid #fff;
+  border-radius: 50%;
+  animation: frame-animations-loading-button 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.animations-loading-button div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.animations-loading-button div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.animations-loading-button div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes frame-animations-loading-button {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
