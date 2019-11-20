@@ -3,18 +3,22 @@
 #[macro_use] extern crate rocket;
 #[macro_use] extern crate serde_derive;
 #[macro_use] extern crate mysql;
+#[macro_use] extern crate lazy_static;
 pub mod public;
 pub mod server;
-use std::env;
+// Development
+// use std::env;
 
 
 fn main() {
     // Development
-    env::set_var("RUST_BACKTRACE", "1");
+    // env::set_var("RUST_BACKTRACE", "1");
+    server::sql_connector::check_sql_pool().unwrap();
     rocket::ignite()
         .mount("/", routes![
             public::index::get,
-            public::login::post
+            public::login::post,
+            public::register::post
         ])
         .register(catchers![error_not_found, error_unprocessable_enitity])
     .launch();
@@ -25,7 +29,7 @@ fn error_not_found(req: &rocket::Request) -> rocket::response::content::Json<Str
     println!("req: {}", req);
     return rocket::response::content::Json(json!({
         "success": false,
-        "error": format!("{}", public::responses::Errors::FileNotFound)
+        "error": "file_not_found"
     }).to_string());
 }
 
@@ -34,6 +38,6 @@ fn error_unprocessable_enitity(req: &rocket::Request) -> rocket::response::conte
     println!("req: {}", req);
     return rocket::response::content::Json(json!({
         "success": false,
-        "error": format!("{}", public::responses::Errors::InternalServerError)
+        "error": "internal_server_error"
     }).to_string());
 }
