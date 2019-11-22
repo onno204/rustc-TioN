@@ -15,7 +15,7 @@ pub fn post(login_data: Option<rocket_contrib::json::Json<LoginData>>) -> Result
         let _username = match &login_data.username { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "username")}).to_string())) };
         let _password = match &login_data.password { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "password")}).to_string())) };
 
-        let user: structures::user::User = match structures::user::user_login(&_username, &_password) {
+        let user: structures::user::User = match structures::user::User::login(&_username, &_password) {
             Ok(v) => v,
             Err(_e) => return Err(content::Json(json!({"success": false, "error": _e}).to_string()))
         };

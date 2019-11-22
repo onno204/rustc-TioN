@@ -39,9 +39,176 @@ impl User {
         };
         return Ok(user)
     }
+    pub fn get_from_id(_id: &u32) -> Result<User, String>{
+        return get_user_by_id(_id)
+    }
+    pub fn get_from_username(_username: &String) -> Result<User, String>{
+        return get_user_by_username(_username)
+    }
+    pub fn get_from_email(_email: &String) -> Result<User, String>{
+        return get_user_by_email(_email)
+    }
+    pub fn get_from_token(_token: &String) -> Result<User, String>{
+        return get_user_by_token(_token)
+    }
+    pub fn login(_username: &String, _password: &String) -> Result<User, String>{
+        return user_login(_username, _password)
+    }
+}
+fn get_user_by_id(_id: &u32) -> Result<User, String>{
+    let mut conn: mysql::PooledConn = server::sql_connector::SQL_POOL.get_conn().unwrap();
+    let _result: Result<mysql::QueryResult<'_>, mysql::Error> = conn.prep_exec(r"SELECT
+                                    id, security_pool, username, password, email, role, token FROM users
+                                    WHERE id = :id ",
+                           params!{
+                               "id" => _id
+                            }
+    );
+    let result: mysql::QueryResult<'_> = match _result{
+        Ok(v) => v,
+        Err(_e) => return Err("failed to fetch user".to_string())
+    };
+    for _row in result {
+        let row = match _row{
+            Ok(v) => v,
+            Err(_e) => panic!("[user_login] let row = match _row")
+        };
+        let (id, security_pool, username, password, email, _role, token): (u32, u32, String, String, String, String, String) = mysql::from_row(row);
+        if &id == _id {
+            let role: structures::roles::Roles = match _role.parse::<structures::roles::Roles>() {
+                Ok(v) => v,
+                Err(_e) => return Err("error while converting role".to_string())
+            };
+            let user: User = User {
+                id: id,
+                security_pool: security_pool,
+                username: username.to_string(),
+                password: password.to_string(),
+                email: email.to_string(),
+                role: role,
+                token: token.to_string()
+            };
+            return Ok(user)
+        }
+    }
+    return Err("user not found".to_string())
+}
+fn get_user_by_username(_username: &String) -> Result<User, String>{
+    let mut conn: mysql::PooledConn = server::sql_connector::SQL_POOL.get_conn().unwrap();
+    let _result: Result<mysql::QueryResult<'_>, mysql::Error> = conn.prep_exec(r"SELECT
+                                    id, security_pool, username, password, email, role, token FROM users
+                                    WHERE username = :username ",
+                           params!{
+                               "username" => _username
+                            }
+    );
+    let result: mysql::QueryResult<'_> = match _result{
+        Ok(v) => v,
+        Err(_e) => return Err("failed to fetch user".to_string())
+    };
+    for _row in result {
+        let row = match _row{
+            Ok(v) => v,
+            Err(_e) => panic!("[user_login] let row = match _row")
+        };
+        let (id, security_pool, username, password, email, _role, token): (u32, u32, String, String, String, String, String) = mysql::from_row(row);
+        if username == _username.to_string() {
+            let role: structures::roles::Roles = match _role.parse::<structures::roles::Roles>() {
+                Ok(v) => v,
+                Err(_e) => return Err("error while converting role".to_string())
+            };
+            let user: User = User {
+                id: id,
+                security_pool: security_pool,
+                username: username.to_string(),
+                password: password.to_string(),
+                email: email.to_string(),
+                role: role,
+                token: token.to_string()
+            };
+            return Ok(user)
+        }
+    }
+    return Err("user not found".to_string())
+}
+fn get_user_by_email(_email: &String) -> Result<User, String>{
+    let mut conn: mysql::PooledConn = server::sql_connector::SQL_POOL.get_conn().unwrap();
+    let _result: Result<mysql::QueryResult<'_>, mysql::Error> = conn.prep_exec(r"SELECT
+                                    id, security_pool, username, password, email, role, token FROM users
+                                    WHERE email = :email ",
+                           params!{
+                               "email" => _email
+                            }
+    );
+    let result: mysql::QueryResult<'_> = match _result{
+        Ok(v) => v,
+        Err(_e) => return Err("failed to fetch user".to_string())
+    };
+    for _row in result {
+        let row = match _row{
+            Ok(v) => v,
+            Err(_e) => panic!("let row = match _row")
+        };
+        let (id, security_pool, username, password, email, _role, token): (u32, u32, String, String, String, String, String) = mysql::from_row(row);
+        if _email == &email {
+            let role: structures::roles::Roles = match _role.parse::<structures::roles::Roles>() {
+                Ok(v) => v,
+                Err(_e) => return Err("error while converting role".to_string())
+            };
+            let user: User = User {
+                id: id,
+                security_pool: security_pool,
+                username: username.to_string(),
+                password: password.to_string(),
+                email: email.to_string(),
+                role: role,
+                token: token.to_string()
+            };
+            return Ok(user)
+        }
+    }
+    return Err("user not found".to_string())
+}
+fn get_user_by_token(_token: &String) -> Result<User, String>{
+    let mut conn: mysql::PooledConn = server::sql_connector::SQL_POOL.get_conn().unwrap();
+    let _result: Result<mysql::QueryResult<'_>, mysql::Error> = conn.prep_exec(r"SELECT
+                                    id, security_pool, username, password, email, role, token FROM users
+                                    WHERE token = :token ",
+                           params!{
+                               "token" => _token
+                            }
+    );
+    let result: mysql::QueryResult<'_> = match _result{
+        Ok(v) => v,
+        Err(_e) => return Err("failed to fetch user".to_string())
+    };
+    for _row in result {
+        let row = match _row{
+            Ok(v) => v,
+            Err(_e) => panic!("let row = match _row")
+        };
+        let (id, security_pool, username, password, email, _role, token): (u32, u32, String, String, String, String, String) = mysql::from_row(row);
+        if _token == &token {
+            let role: structures::roles::Roles = match _role.parse::<structures::roles::Roles>() {
+                Ok(v) => v,
+                Err(_e) => return Err("error while converting role".to_string())
+            };
+            let user: User = User {
+                id: id,
+                security_pool: security_pool,
+                username: username.to_string(),
+                password: password.to_string(),
+                email: email.to_string(),
+                role: role,
+                token: token.to_string()
+            };
+            return Ok(user)
+        }
+    }
+    return Err("user not found".to_string())
 }
 
-pub fn user_login(_username: &String, _password: &String) -> Result<User, String> {
+fn user_login(_username: &String, _password: &String) -> Result<User, String> {
     let mut conn: mysql::PooledConn = server::sql_connector::SQL_POOL.get_conn().unwrap();
     let _result: Result<mysql::QueryResult<'_>, mysql::Error> = conn.prep_exec(r"SELECT
                                     id, security_pool, username, password, email, role FROM users
@@ -90,6 +257,7 @@ pub fn user_login(_username: &String, _password: &String) -> Result<User, String
     }
     return Err("login failed".to_string())
 }
+
 fn update_token(username: &String) -> Result<String, String> {
     let token: String = server::security::create_random_token();
     let mut conn: mysql::PooledConn = server::sql_connector::SQL_POOL.get_conn().unwrap();
@@ -108,7 +276,16 @@ fn update_token(username: &String) -> Result<String, String> {
     return Ok(token)
 }
 
-pub fn user_register(username: &String, _password: &String, email: &String, security_pool: &u32, role: &structures::roles::Roles) -> Result<(), String> {
+fn user_register(username: &String, _password: &String, email: &String, security_pool: &u32, role: &structures::roles::Roles) -> Result<(), String> {
+    match get_user_by_username(&username){
+        Ok(_v) => return Err("user already exists".to_string()),
+        Err(_e) => _e
+    };
+    match get_user_by_email(&email){
+        Ok(_v) => return Err("user-email already exists".to_string()),
+        Err(_e) => _e
+    };
+
     let token: String = server::security::create_random_token();
     let password: String = server::security::password_hash(_password.to_string());
     let mut conn: mysql::PooledConn = server::sql_connector::SQL_POOL.get_conn().unwrap();

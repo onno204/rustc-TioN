@@ -20,6 +20,12 @@ fn main() {
             public::login::post,
             public::register::post
         ])
+        .mount("/api/securitypool", routes![
+            public::securitypool::create_post
+        ])
+        .mount("/api/user", routes![
+            public::user::info_post
+        ])
         .register(catchers![error_not_found, error_unprocessable_enitity])
     .launch();
 }
