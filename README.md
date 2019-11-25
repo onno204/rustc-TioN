@@ -23,7 +23,7 @@ rustup default nightly
 cargo install cargo-watch
 ```
 
-3. Copy example settings [main server/src/server/settings_private.rs.example](main server/src/server/settings_private.rs.example) -> [main server/src/server/settings_private.rs]
+3. Copy example settings [main server/src/server/settings_private.rs.example] -> [main server/src/server/settings_private.rs]
 Edit the file according to your settings
 
 4. Run the Database setup file in [main server/setup/tion.sql]
