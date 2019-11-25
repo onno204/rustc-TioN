@@ -1,0 +1,6 @@
+
+pub static SQL_URL: &str = "localhost";
+pub static SQL_PORT: &str = "3306";
+pub static SQL_USER: &str = "root";
+pub static SQL_PASSWORD: &str = "";
+pub static SQL_DATABASE: &str = "tion";
