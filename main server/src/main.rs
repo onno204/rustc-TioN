@@ -13,7 +13,10 @@ pub mod server;
 fn main() {
     // Development
     // env::set_var("RUST_BACKTRACE", "1");
+    println!("Connecting to MySql server...");
     server::sql_connector::check_sql_pool().unwrap();
+    println!("Connected");
+
     rocket::ignite()
         .mount("/", routes![
             public::index::get,
