@@ -2,7 +2,7 @@ use std::str::FromStr;
 use std::fmt;
 use std::mem::discriminant;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Deserialize)]
 pub enum Roles {
     Admin = 3,
     User = 2,

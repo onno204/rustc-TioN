@@ -13,6 +13,7 @@ pub struct CreatePoolData {
 
 #[post("/create", format="application/json", data="<data>")]
 pub fn create_post(data: Option<rocket_contrib::json::Json<CreatePoolData>>) -> Result<content::Json<String>, content::Json<String>> {
+
     if let Some(data) = data {
         let _token = match &data.token { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "token")}).to_string())) };
         let _name = match &data.name { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "name")}).to_string())) };

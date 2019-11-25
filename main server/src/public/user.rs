@@ -3,19 +3,43 @@ extern crate serde_derive;
 use crate::server::structures;
 use crate::server::authorization;
 use rocket::response::content;
+use rocket::Outcome;
+use rocket::http::Status;
+use rocket::request::{self, Request, FromRequest};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Debug)]
+pub struct ApiKey(String);
+
+impl<'a, 'r> FromRequest<'a, 'r> for ApiKey<role: structures::roles::Roles> {
+    type Error = ();
+
+    fn from_request(request: &'a Request<'r>) -> request::Outcome<ApiKey, ()> {
+        let keys: Vec<_> = request.headers().get("Authorization").collect();
+        println!("{:?}", keys);
+        if keys.len() != 1 {
+            return Outcome::Failure((Status::new(401, "Unauthorized"), ()));
+        }
+
+        let key = keys[0];
+        if !authorization::has_token_no_role(&key.to_string(), role) {
+            return Outcome::Forward(());
+        }
+
+        return Outcome::Success(ApiKey(key.to_string()));
+    }
+}
+#[derive(Serialize, Deserialize, Debug)]
 pub struct InfoData {
-    token: Option<String>,
     username: Option<String>
 }
 
 #[post("/info", format="application/json", data="<data>")]
-pub fn info_post(data: Option<rocket_contrib::json::Json<InfoData>>) -> Result<content::Json<String>, content::Json<String>> {
+pub fn info_post(data: Option<rocket_contrib::json::Json<InfoData>>, _key: ApiKey<structures::roles::Roles>) -> Result<content::Json<String>, content::Json<String>> {
+    //println!("{:?}", data);
     if let Some(data) = data {
-        let _token = match &data.token { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "token")}).to_string())) };
+        // let _token = match &data.token { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "token")}).to_string())) };
         let _username = match &data.username { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "username")}).to_string())) };
-        if authorization::has_token_no_role(_token, structures::roles::Roles::Admin){ return Err(content::Json(json!({"success": false, "error": "no_permissions"}).to_string())) }
+        //
 
         let user: structures::user::User = match structures::user::User::get_from_username(&_username) {
             Ok(v) => v,
