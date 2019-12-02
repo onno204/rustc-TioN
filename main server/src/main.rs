@@ -29,7 +29,7 @@ fn main() {
         .mount("/api/user", routes![
             public::user::info_post
         ])
-        .register(catchers![error_not_found, error_unprocessable_enitity])
+        .register(catchers![error_not_found, error_unprocessable_enitity, error_unauthorized])
     .launch();
 }
 
@@ -39,6 +39,15 @@ fn error_not_found(req: &rocket::Request) -> rocket::response::content::Json<Str
     return rocket::response::content::Json(json!({
         "success": false,
         "error": "file_not_found"
+    }).to_string());
+}
+
+#[catch(401)]
+fn error_unauthorized(req: &rocket::Request) -> rocket::response::content::Json<String> {
+    println!("req: {}", req);
+    return rocket::response::content::Json(json!({
+        "success": false,
+        "error": "Unauthorized"
     }).to_string());
 }
 
