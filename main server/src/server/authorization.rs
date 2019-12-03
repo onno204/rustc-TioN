@@ -1,4 +1,5 @@
 use crate::server::structures;
+use std::fmt;
 use rocket::Outcome;
 use rocket::http::Status;
 use rocket::request::{self, Request, FromRequest};
@@ -51,15 +52,22 @@ fn check_apikey_role(request: &Request, role: structures::roles::Roles) -> Resul
 
     return Ok(key.to_string());
 }
-impl<T> Double for T
-where
-    T: Xed,
-{
-    fn double(&self) {
-        /* ... */
+
+impl fmt::Display for ApiKeyAdmin {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", str::replace(&self.to_string()[..], "Bearer ", ""))
     }
 }
-
+impl fmt::Display for ApiKeyUser {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", str::replace(&self.to_string()[..], "Bearer ", ""))
+    }
+}
+impl fmt::Display for ApiKeyDevice {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", str::replace(&self.to_string()[..], "Bearer ", ""))
+    }
+}
 impl<'a, 'r> FromRequest<'a, 'r> for ApiKeyAdmin {
     type Error = ();
     fn from_request(request: &'a Request<'r>) -> request::Outcome<ApiKeyAdmin, ()> {
