@@ -1,5 +1,5 @@
 
-#[get("/test")]
+#[get("/")]
 pub fn get() -> &'static str {
-    return "test!";
+    return "pong";
 }

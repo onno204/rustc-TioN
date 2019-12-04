@@ -24,11 +24,17 @@ fn main() {
             public::register::post
         ])
         .mount("/api/securitypool", routes![
-            public::securitypool::create_post
         ])
         .mount("/api/user", routes![
             public::user::info_post
         ])
+        .mount("/api/management/device", routes![
+            public::management::device::add_device,
+        ])
+        .mount("/api/management/securitypool", routes![
+            public::management::securitypool::create_post,
+        ])
+
         .register(catchers![error_not_found, error_unprocessable_enitity, error_unauthorized])
     .launch();
 }
@@ -36,15 +42,26 @@ fn main() {
 #[catch(404)]
 fn error_not_found(req: &rocket::Request) -> rocket::response::content::Json<String> {
     println!("req: {}", req);
+    let request_types: Vec<_> = req.headers().get("Content-Type").collect();
+    if request_types.len() >= 1 {
+        let _request_type: &str = request_types[0];
+        if _request_type != "application/json" {
+            return rocket::response::content::Json(json!({
+                "success": false,
+                "error": "file_not_found",
+                "message": "Try creating a POST 'application/json' request"
+            }).to_string());
+        }
+    }
     return rocket::response::content::Json(json!({
         "success": false,
         "error": "file_not_found"
     }).to_string());
+
 }
 
 #[catch(401)]
-fn error_unauthorized(req: &rocket::Request) -> rocket::response::content::Json<String> {
-    println!("req: {}", req);
+fn error_unauthorized(_req: &rocket::Request) -> rocket::response::content::Json<String> {
     return rocket::response::content::Json(json!({
         "success": false,
         "error": "Unauthorized"
@@ -52,8 +69,7 @@ fn error_unauthorized(req: &rocket::Request) -> rocket::response::content::Json<
 }
 
 #[catch(500)]
-fn error_unprocessable_enitity(req: &rocket::Request) -> rocket::response::content::Json<String> {
-    println!("req: {}", req);
+fn error_unprocessable_enitity(_req: &rocket::Request) -> rocket::response::content::Json<String> {
     return rocket::response::content::Json(json!({
         "success": false,
         "error": "internal_server_error"

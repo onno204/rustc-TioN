@@ -4,32 +4,29 @@ use crate::server::structures;
 use std::fmt;
 
 #[derive(Debug)]
-pub struct User {
+pub struct Device {
     pub id: u32,
     pub security_pool: u32,
-    pub username: String,
-    pub password: String,
-    pub email: String,
-    pub role: structures::roles::Roles,
+    pub devicename: String,
+    pub type: String,
     pub token: String
 }
 
-impl fmt::Display for User {
+impl fmt::Display for Device {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "id: {id}, security_pool: {security_pool}, username: {username}, password: {password}, email: {email}, role: {role}",
+        write!(f, "id: {id}, security_pool: {security_pool}, devicename: {devicename}, type: {type}, token: {token}",
             id = self.id,
             security_pool = self.security_pool,
-            username = self.username,
-            password = self.password,
-            email = self.email,
-            role = self.role
+            devicename = self.devicename,
+            type = self.type,
+            token = self.token
         )
     }
 }
 
-impl User {
-    pub fn new(username: &String, password: &String, email: &String, security_pool: &u32, role: &structures::roles::Roles) -> Result<User, String> {
-        match user_register(username, password, email, security_pool, role) {
+impl Device {
+    pub fn new(_devicename: &String, _user: &structures::user::User) -> Result<Device, String> {
+        match device_register(_devicename, _user) {
             Ok(v) => v,
             Err(_e) => return Err(format!("failed to register user: {}", _e).to_string())
         };
@@ -39,23 +36,17 @@ impl User {
         };
         return Ok(user)
     }
-    pub fn get_from_id(_id: &u32) -> Result<User, String>{
-        return get_user_by_id(_id)
+    pub fn get_from_id(_id: &u32) -> Result<Device, String>{
+        return get_device_by_id(_id)
     }
-    pub fn get_from_username(_username: &String) -> Result<User, String>{
-        return get_user_by_username(_username)
+    pub fn get_from_devicename(_devicename: &String) -> Result<Device, String>{
+        return get_device_by_devicename(_devicename)
     }
     pub fn get_from_email(_email: &String) -> Result<User, String>{
         return get_user_by_email(_email)
     }
-    pub fn get_from_token(_token: &String) -> Result<User, String>{
-        return get_user_by_token(_token)
-    }
-    pub fn login(_username: &String, _password: &String) -> Result<User, String>{
-        return user_login(_username, _password)
-    }
-    pub fn device_register(_devicename: &String, _user: &structures::user::User) -> Result<(), String>{
-        return device_register(_devicename, _user)
+    pub fn get_from_token(_token: &String) -> Result<Device, String>{
+        return get_device_by_token(_token)
     }
 }
 

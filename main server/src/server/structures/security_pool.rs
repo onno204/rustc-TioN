@@ -32,8 +32,15 @@ impl SecurityPool {
         };
         return Ok(pool)
     }
+    pub fn get_security_pool_by_name(_pool_name: &String) -> Result<SecurityPool, String>{
+        return get_security_pool_by_name(_pool_name)
+    }
+    pub fn get_security_pool_by_id(_pool_id: &u32) -> Result<SecurityPool, String>{
+        return get_security_pool_by_id(_pool_id)
+    }
 }
-pub fn get_security_pool_by_name(_pool_name: &String) -> Result<SecurityPool, String>{
+
+fn get_security_pool_by_name(_pool_name: &String) -> Result<SecurityPool, String>{
     let mut conn: mysql::PooledConn = server::sql_connector::SQL_POOL.get_conn().unwrap();
     let _result: Result<mysql::QueryResult<'_>, mysql::Error> = conn.prep_exec(r"SELECT
                                     id, name, owner FROM security_pool
@@ -63,7 +70,7 @@ pub fn get_security_pool_by_name(_pool_name: &String) -> Result<SecurityPool, St
     }
     return Err("pool not found".to_string())
 }
-pub fn get_security_pool_by_id(_pool_id: &u32) -> Result<SecurityPool, String>{
+fn get_security_pool_by_id(_pool_id: &u32) -> Result<SecurityPool, String>{
     let mut conn: mysql::PooledConn = server::sql_connector::SQL_POOL.get_conn().unwrap();
     let _result: Result<mysql::QueryResult<'_>, mysql::Error> = conn.prep_exec(r"SELECT
                                     id, name, owner FROM security_pool
@@ -94,7 +101,7 @@ pub fn get_security_pool_by_id(_pool_id: &u32) -> Result<SecurityPool, String>{
     return Err("pool not found".to_string())
 }
 
-pub fn add_security_pool(name: &String, owner: &u32) -> Result<(), String> {
+fn add_security_pool(name: &String, owner: &u32) -> Result<(), String> {
     match get_security_pool_by_name(&name){
         Ok(_v) => return Err("pool already exists".to_string()),
         Err(_e) => _e

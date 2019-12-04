@@ -1,6 +1,7 @@
 extern crate serde_json;
 extern crate serde_derive;
 use crate::server::structures;
+use crate::server::authorization;
 use rocket::response::content;
 
 #[derive(Serialize, Deserialize)]
@@ -13,7 +14,7 @@ pub struct RegisterData {
 }
 
 #[post("/register", format="application/json", data="<register_data>")]
-pub fn post(register_data: Option<rocket_contrib::json::Json<RegisterData>>) -> Result<content::Json<String>, content::Json<String>> {
+pub fn post(register_data: Option<rocket_contrib::json::Json<RegisterData>>, _key: authorization::ApiKeyAdmin) -> Result<content::Json<String>, content::Json<String>> {
     if let Some(register_data) = register_data {
         let _role = match &register_data.role { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "role")}).to_string())) };
         let _username = match &register_data.username { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "username")}).to_string())) };

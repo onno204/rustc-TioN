@@ -38,34 +38,35 @@ pub struct ApiKey(String);
 fn check_apikey_role(request: &Request, role: structures::roles::Roles) -> Result<String, ()>{
     let keys: Vec<_> = request.headers().get("Authorization").collect();
     if keys.len() != 1 {
-        println!("Failure");
         return Err(())
     }
 
     let _key: &str = keys[0];
     let key: String = str::replace(_key, "Bearer ", "");
-    if !has_token_role(&key.to_string(), role) {
-        println!("Failure2");
+    // Fail if key is to short(To prevent empty keys)
+    if key.len() <= 10{
         return Err(());
     }
-    println!("OK");
+    if !has_token_role(&key.to_string(), role) {
+        return Err(());
+    }
 
     return Ok(key.to_string());
 }
 
 impl fmt::Display for ApiKeyAdmin {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", str::replace(&self.to_string()[..], "Bearer ", ""))
+        write!(f, "{}", str::replace(&self.0[..], "Bearer ", ""))
     }
 }
 impl fmt::Display for ApiKeyUser {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", str::replace(&self.to_string()[..], "Bearer ", ""))
+        write!(f, "{}", str::replace(&self.0[..], "Bearer ", ""))
     }
 }
 impl fmt::Display for ApiKeyDevice {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", str::replace(&self.to_string()[..], "Bearer ", ""))
+        write!(f, "{}", str::replace(&self.0[..], "Bearer ", ""))
     }
 }
 impl<'a, 'r> FromRequest<'a, 'r> for ApiKeyAdmin {

@@ -5,14 +5,16 @@ use crate::server::authorization;
 use rocket::response::content;
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct InfoData {
-    username: Option<String>
+pub struct AddDeviceData {
+    devicename: Option<String>,
+    devicetype: Option<String>
 }
 
-#[post("/info", format="application/json", data="<data>")]
-pub fn info_post(data: Option<rocket_contrib::json::Json<InfoData>>, _key: authorization::ApiKeyAdmin) -> Result<content::Json<String>, content::Json<String>> {
+#[post("/add", format="application/json", data="<data>")]
+pub fn add_device(data: Option<rocket_contrib::json::Json<AddDeviceData>>, _key: authorization::ApiKeyAdmin) -> Result<content::Json<String>, content::Json<String>> {
     if let Some(data) = data {
-        let _username = match &data.username { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "username")}).to_string())) };
+        let _devicename = match &data.devicename { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "devicename")}).to_string())) };
+        let _devicetype = match &data.devicetype { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "devicetype")}).to_string())) };
 
         let user: structures::user::User = match structures::user::User::get_from_username(&_username) {
             Ok(v) => v,
