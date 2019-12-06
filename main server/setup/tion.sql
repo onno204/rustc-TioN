@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2019 at 11:22 PM
+-- Generation Time: Dec 06, 2019 at 10:59 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -21,6 +21,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `tion`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `devices`
+--
+
+CREATE TABLE `devices` (
+  `id` int(10) NOT NULL,
+  `security_pool` int(10) NOT NULL,
+  `devicename` varchar(255) NOT NULL,
+  `device_type` enum('Camera','Windowsensor','Doorsensor','Motionsensor') NOT NULL,
+  `room` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -62,11 +77,17 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `security_pool`, `username`, `password`, `email`, `role`, `token`) VALUES
-(20, 1, 'username11', '$2b$12$EItZoFC7dDdaZeCX.fElf.RC19nZp3s9f80b.apct3Pu4c947AkR6', 'hey@hoi.nl11', 'Admin', 'E4eK1Nzd2M9SLyKmA7nyxFDWA4La0lMKCBmUTPbnH5tOVwBZB7Jqyd5oAAHOfma2SKpe76YqJj4odrFGA9uPPTUHvVmNRXQHCqF5ydNBpgj4JMg2LzyDFBV58neL3KYu');
+(20, 1, 'username11', '$2b$12$EItZoFC7dDdaZeCX.fElf.RC19nZp3s9f80b.apct3Pu4c947AkR6', 'hey@hoi.nl11', 'Admin', 'oLZTFdV6HPMPLfGH5VD8QC22uEXeuv6UQgC1EaXHjVVky8GE1zwBmh2FgiDUotYuLNM9Cpsik33riuhVFdVX2xcwZnxbneTP3GXW2bPl4kWOCb72XpxzPQoiExvtSElB');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `devices`
+--
+ALTER TABLE `devices`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `security_pool`
@@ -88,6 +109,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `devices`
+--
+ALTER TABLE `devices`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `security_pool`
