@@ -16,7 +16,7 @@ pub fn add_device(data: Option<rocket_contrib::json::Json<AddDeviceData>>, _key:
         let _devicename = match &data.devicename { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "devicename")}).to_string())) };
         let _devicetype = match &data.devicetype { Some(x) => x, None => return Err(content::Json(json!({"success": false, "error": format!("missing argument: {}", "devicetype")}).to_string())) };
 
-        let user: structures::user::User = match structures::user::User::get_from_username(&_username) {
+        let user: structures::device::Device = match structures::device::Device::get_from_username(&_username) {
             Ok(v) => v,
             Err(_e) => return Err(content::Json(json!({"success": false, "error": _e}).to_string()))
         };
