@@ -9,24 +9,24 @@ pub enum DeviceTypes {
     Motionsensor = 1
 }
 
-impl fmt::Display for Roles {
+impl fmt::Display for DeviceTypes {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
        match *self {
-           Roles::Camera => write!(f, "Camera"),
-           Roles::Windowsensor => write!(f, "Windowsensor"),
-           Roles::Doorsensor => write!(f, "Doorsensor"),
-           Roles::Motionsensor => write!(f, "Motionsensor"),
+           DeviceTypes::Camera => write!(f, "Camera"),
+           DeviceTypes::Windowsensor => write!(f, "Windowsensor"),
+           DeviceTypes::Doorsensor => write!(f, "Doorsensor"),
+           DeviceTypes::Motionsensor => write!(f, "Motionsensor"),
        }
     }
 }
-impl FromStr for Roles {
+impl FromStr for DeviceTypes {
     type Err = ();
-    fn from_str(s: &str) -> Result<Roles, ()> {
+    fn from_str(s: &str) -> Result<DeviceTypes, ()> {
         match s {
-            "Camera" => Ok(Roles::Camera),
-            "Windowsensor" => Ok(Roles::Windowsensor),
-            "Doorsensor" => Ok(Roles::Doorsensor),
-            "Motionsensor" => Ok(Roles::Motionsensor),
+            "Camera" => Ok(DeviceTypes::Camera),
+            "Windowsensor" => Ok(DeviceTypes::Windowsensor),
+            "Doorsensor" => Ok(DeviceTypes::Doorsensor),
+            "Motionsensor" => Ok(DeviceTypes::Motionsensor),
             _ => Err(()),
         }
     }
