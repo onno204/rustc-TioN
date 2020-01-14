@@ -3,7 +3,7 @@
 
 Tion Security contains multiple programs
   - [Main server][main_server] written in [Rust][rust]
-  - [User interface][userInterface] writting in php
+  - [User interface][userInterface] written in php
   - Arduino client
   - Raspberry client
  
